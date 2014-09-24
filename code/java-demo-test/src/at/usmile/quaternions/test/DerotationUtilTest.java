@@ -10,9 +10,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import Jama.Matrix;
 import at.usmile.derotation.test.DemoUtil;
-import at.usmile.quaternions.DerotationUtil;
-import at.usmile.quaternions.Quaternion;
+import at.usmile.timeseries.derotation.DerotationUtil;
+import at.usmile.timeseries.derotation.Quaternion;
 import at.usmile.tuple.GenericTuple2;
 
 /**
@@ -36,21 +37,21 @@ public class DerotationUtilTest extends DerotationUtil {
 	 * rotated 3D timeseries of device one (rotated with an arbitrary rotation).
 	 */
 	private double[][] xRotated = null;
+
 	/**
-	 * derotated 3D timeseries of device one (derotated to maximize similarity
-	 * to y).
+	 * 3D timeseries of device 1 centered by columns.
 	 */
-	private double[][] xDerotated = null;
+	private double[][] xCentered = null;
 
 	// ================================================================================================================
 	// METHODS
 
 	@Before
 	public void before() throws FileNotFoundException {
-		x = DemoUtil.loadTimeseries(new File("../../demo_data/X1.csv"), "\n");
-		xRotated = DemoUtil.loadTimeseries(new File("../../demo_data/X1_rotated.csv"), "\n");
-		xDerotated = DemoUtil.loadTimeseries(new File("../../demo_data/X1_derotated.csv"), "\n");
-		y = DemoUtil.loadTimeseries(new File("../../demo_data/Y1.csv"), "\n");
+		x = DemoUtil.loadTimeseries(new File("../../demo_data/X1.csv"), " ");
+		xRotated = DemoUtil.loadTimeseries(new File("../../demo_data/X1_rotated.csv"), " ");
+		xCentered = DemoUtil.loadTimeseries(new File("../../demo_data/X1_centered.csv"), " ");
+		y = DemoUtil.loadTimeseries(new File("../../demo_data/Y1.csv"), " ");
 	}
 
 	@Test
@@ -99,6 +100,16 @@ public class DerotationUtilTest extends DerotationUtil {
 	}
 
 	@Test
+	public void testCenter() {
+		assertEquals(x.length, xCentered.length);
+		double[][] centered = new Matrix(x).getArrayCopy();
+		center(centered);
+		for (int i = 0; i < centered.length; i++) {
+			assertArrayEquals(xCentered[i], centered[i], EPSILON);
+		}
+	}
+
+	@Test
 	public void testReserError1() {
 		assertEquals(x.length, xRotated.length);
 		Quaternion u = new Quaternion(0.00000, 0.26726, 0.53452, 0.80178);
@@ -114,16 +125,6 @@ public class DerotationUtilTest extends DerotationUtil {
 		for (int i = 0; i < rotated.value2.length; i++) {
 			assertArrayEquals(xRotated[i], rotated.value2[i], EPSILON);
 		}
-	}
-
-	@Test
-	public void testResiduum() {
-		GenericTuple2<Double, double[][]> residuum = residuum(x, y);
-		for (int i = 0; i < residuum.value2.length; i++) {
-			assertArrayEquals(xDerotated[i], residuum.value2[i], EPSILON);
-		}
-		// TODO check if that is a problem of having chosen different
-		// eigenvectors - most probably that's the case....
 	}
 
 	@After

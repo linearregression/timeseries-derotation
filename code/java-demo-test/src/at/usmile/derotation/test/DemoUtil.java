@@ -1,7 +1,10 @@
 package at.usmile.derotation.test;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -16,7 +19,7 @@ import java.util.Scanner;
 public class DemoUtil {
 
 	/**
-	 * Load a 3D (3 axes) time series file to a 2D array.
+	 * Load a 3D (3 axes) time series csv file to a 2D array.
 	 * 
 	 * @param file
 	 * @param delimeter
@@ -26,10 +29,10 @@ public class DemoUtil {
 	public static double[][] loadTimeseries(File file, String delimeter) throws FileNotFoundException {
 		// load values to list
 		Scanner scanner = new Scanner(file);
-		scanner.useDelimiter(delimeter);
+		scanner.useDelimiter("\n");
 		List<Double[]> valuesList = new ArrayList<Double[]>();
 		while (scanner.hasNext()) {
-			String[] tokens = scanner.next().split(" ");
+			String[] tokens = scanner.next().split(delimeter);
 			Double[] curVal = new Double[3]; // we expect 3 orthogonal axes
 			for (int i = 0; i < curVal.length; i++) {
 				curVal[i] = Double.valueOf(tokens[i]);
@@ -48,4 +51,31 @@ public class DemoUtil {
 		return valuesArray;
 	}
 
+	/**
+	 * Write 3D (3 axes) time series from 2D array to csv file.
+	 * 
+	 * @param file
+	 * @param delimeter
+	 * @param timeseries
+	 * @throws IOException
+	 */
+	public static void writeTimeseries(File file, String delimeter, double[][] timeseries) throws IOException {
+		StringBuilder sb = new StringBuilder();
+		for (int row = 0; row < timeseries.length; row++) {
+			for (int col = 0; col < timeseries[0].length; col++) {
+				sb.append(timeseries[row][col]);
+				if (col != timeseries[0].length - 1) {
+					sb.append(delimeter);
+				}
+			}
+			sb.append("\n");
+		}
+		file.delete();
+		file.createNewFile();
+		FileWriter fileWriter = new FileWriter(file);
+		BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+		bufferedWriter.write(sb.toString());
+		bufferedWriter.flush();
+		fileWriter.close();
+	}
 }

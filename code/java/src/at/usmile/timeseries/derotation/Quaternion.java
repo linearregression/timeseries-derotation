@@ -1,4 +1,4 @@
-package at.usmile.quaternions;
+package at.usmile.timeseries.derotation;
 
 /**
  * Representation of a quaternion (see e.g.
