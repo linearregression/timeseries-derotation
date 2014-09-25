@@ -2,7 +2,7 @@ package at.usmile.timeseries.derotation;
 
 import Jama.EigenvalueDecomposition;
 import Jama.Matrix;
-import at.usmile.functional.GenericTuple2;
+import at.usmile.tuple.GenericTuple2;
 
 /**
  * Core utilities to optimally derotate timeseries. To actually derotate two 3D

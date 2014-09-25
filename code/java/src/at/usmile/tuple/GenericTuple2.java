@@ -1,4 +1,4 @@
-package at.usmile.functional;
+package at.usmile.tuple;
 
 /**
  * Holds 2 values of different type that should stick together. Perfect for returning a tuple of values which are of different
