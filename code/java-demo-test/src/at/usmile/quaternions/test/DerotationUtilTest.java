@@ -48,10 +48,10 @@ public class DerotationUtilTest extends DerotationUtil {
 
 	@Before
 	public void before() throws FileNotFoundException {
-		x = DemoUtil.loadTimeseries(new File("../../demo_data/X1.csv"), " ");
-		xRotated = DemoUtil.loadTimeseries(new File("../../demo_data/X1_rotated.csv"), " ");
-		xCentered = DemoUtil.loadTimeseries(new File("../../demo_data/X1_centered.csv"), " ");
-		y = DemoUtil.loadTimeseries(new File("../../demo_data/Y1.csv"), " ");
+		x = DemoUtil.loadTimeseries(new File("../../demo_data/X1.csv"), " ", 200);
+		xRotated = DemoUtil.loadTimeseries(new File("../../demo_data/X1_rotated.csv"), " ", 200);
+		xCentered = DemoUtil.loadTimeseries(new File("../../demo_data/X1_centered.csv"), " ", 200);
+		y = DemoUtil.loadTimeseries(new File("../../demo_data/Y1.csv"), " ", 200);
 	}
 
 	@Test

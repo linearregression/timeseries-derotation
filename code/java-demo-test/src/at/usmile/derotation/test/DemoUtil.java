@@ -23,10 +23,11 @@ public class DemoUtil {
 	 * 
 	 * @param file
 	 * @param delimeter
+	 * @param _amountOfLines
 	 * @return
 	 * @throws FileNotFoundException
 	 */
-	public static double[][] loadTimeseries(File file, String delimeter) throws FileNotFoundException {
+	public static double[][] loadTimeseries(File file, String delimeter, int _amountOfLines) throws FileNotFoundException {
 		// load values to list
 		Scanner scanner = new Scanner(file);
 		scanner.useDelimiter("\n");
@@ -41,8 +42,11 @@ public class DemoUtil {
 		}
 		scanner.close();
 		// convert to 2D array
-		double[][] valuesArray = new double[valuesList.size()][3];
-		for (int sampleNr = 0; sampleNr < valuesArray.length; sampleNr++) {
+		if (_amountOfLines == -1) {
+			_amountOfLines = valuesList.size();
+		}
+		double[][] valuesArray = new double[_amountOfLines][3];
+		for (int sampleNr = 0; sampleNr < _amountOfLines; sampleNr++) {
 			Double[] curVal = valuesList.get(sampleNr);
 			for (int i = 0; i < curVal.length; i++) {
 				valuesArray[sampleNr][i] = curVal[i];

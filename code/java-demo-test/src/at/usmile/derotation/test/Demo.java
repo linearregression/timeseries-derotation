@@ -17,8 +17,8 @@ public class Demo {
 
 	public static void main(String[] args) throws IOException {
 		// precondition: load demonstration time series
-		double[][] x = DemoUtil.loadTimeseries(new File("../../demo_data/X1.csv"), " ");
-		double[][] y = DemoUtil.loadTimeseries(new File("../../demo_data/Y1.csv"), " ");
+		double[][] x = DemoUtil.loadTimeseries(new File("../../demo_data/X1.csv"), " ", 200);
+		double[][] y = DemoUtil.loadTimeseries(new File("../../demo_data/Y1.csv"), " ", 200);
 
 		// derotate time series
 		GenericTuple2<Double, double[][]> residuum = DerotationUtil.residuum(x, y, true);

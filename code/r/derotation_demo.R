@@ -1,3 +1,12 @@
+# Rainhard Findling
+# u'smile Lab - University of Applied Sciences Upper Austria
+# 2014/06
+# 
+# Demo of using residuum to derotate two acceleration timeseries before comparing them. 
+# Besides derotation this script gives detail insight to magnitude comparison as well
+# as comparision of derotated, individual axes of both timeseries, including multiple
+# figures and statistics of multiple well known similarity measures.
+
 library('dtw')
 library('stats')
 
@@ -10,7 +19,7 @@ width <- 5
 height <- 4
 
 # load multiple datasets
-d <- lapply(c('../../demo_data/X1.csv', '../../demo_data/Y1.csv'), FUN=function(f)read.csv(f, header=F, sep=' '))
+d <- lapply(c('../../demo_data/X1.csv', '../../demo_data/Y1.csv'), FUN=function(f)read.csv(f, header=F, sep=' ')[1:200,])
 
 # normalize
 d <- lapply(d, scale, scale=F)
