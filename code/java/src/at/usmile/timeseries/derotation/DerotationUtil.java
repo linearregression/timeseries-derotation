@@ -16,6 +16,13 @@ import at.usmile.tuple.GenericTuple2;
  */
 public class DerotationUtil {
 
+	/**
+	 * Quaternion multiplicatio p * q.
+	 * 
+	 * @param p
+	 * @param q
+	 * @return
+	 */
 	public static Quaternion qmul(Quaternion p, Quaternion q) {
 		double x = p.x * q.x - (p.i * q.i + p.j * q.j + p.k * q.k);
 		double i = p.x * q.i + q.x * p.i + p.j * q.k - p.k * q.j;
@@ -24,6 +31,13 @@ public class DerotationUtil {
 		return new Quaternion(x, i, j, k);
 	}
 
+	/**
+	 * Quaternion rotation.
+	 * 
+	 * @param p
+	 * @param u
+	 * @return
+	 */
 	public static Quaternion rotquat(Quaternion p, Quaternion u) {
 		Quaternion uc = new Quaternion(u.x, -u.i, -u.j, -u.k);
 		Quaternion up = DerotationUtil.qmul(u, p);
@@ -31,20 +45,42 @@ public class DerotationUtil {
 		return upuc;
 	}
 
-	public static GenericTuple2<Double, double[][]> reser(double[][] vectorX, double[][] vectorY, Quaternion u) {
+	/**
+	 * Rotate timeseriesX by quaternion u. Then calculate the mean squared error
+	 * of rotated(timeseriesX) to timeseriesY (0 if timeseriesY = null).
+	 * 
+	 * @param timeseriesX
+	 * @param timeseriesY
+	 * @param u
+	 * @return value1: mean squared error of rotated(timeseriesX) and
+	 *         timeseriesY. value2: the rotated timeseriesX.
+	 */
+	public static GenericTuple2<Double, double[][]> reser(double[][] timeseriesX, double[][] timeseriesY, Quaternion u) {
 		double e = 0;
-		double[][] p = new double[vectorX.length][3];
-		for (int k = 0; k < vectorX.length; k++) {
-			Quaternion y = DerotationUtil.rotquat(new Quaternion(0, vectorX[k]), u);
+		double[][] p = new double[timeseriesX.length][3];
+		for (int k = 0; k < timeseriesX.length; k++) {
+			Quaternion y = DerotationUtil.rotquat(new Quaternion(0, timeseriesX[k]), u);
 			p[k] = y.getIJK();
-			for (int i = 0; i < 3; i++) {
-				e += Math.pow(vectorX[k][i] - p[k][i], 2);
+			if (timeseriesY == null) {
+				for (int i = 0; i < 3; i++) {
+					e += Math.pow(timeseriesX[k][i] - p[k][i], 2);
+				}
 			}
 		}
-		e /= vectorX.length;
+		e /= timeseriesX.length;
 		return new GenericTuple2<Double, double[][]>(e, p);
 	}
 
+	/**
+	 * Derotate 3D timeseries x towards 3D timeseries y. Derotates x so that it
+	 * is most similar to y, measured by their mean squared error.
+	 * 
+	 * @param x
+	 * @param y
+	 * @param center
+	 * @return value1: mean squared error of rotated(x) and y. value2: the
+	 *         rotated x.
+	 */
 	public static GenericTuple2<Double, double[][]> residuum(double[][] x, double[][] y, boolean center) {
 		if (center) {
 			for (double a[][] : new double[][][] { x, y }) {

@@ -110,14 +110,6 @@ public class DerotationUtilTest extends DerotationUtil {
 	}
 
 	@Test
-	public void testReserError1() {
-		assertEquals(x.length, xRotated.length);
-		Quaternion u = new Quaternion(0.00000, 0.26726, 0.53452, 0.80178);
-		GenericTuple2<Double, double[][]> rotated = reser(x, y, u);
-		assertEquals(547.9352, rotated.value1.doubleValue(), EPSILON);
-	}
-
-	@Test
 	public void testReserDerotatedValue1() {
 		assertEquals(x.length, xRotated.length);
 		Quaternion u = new Quaternion(0.00000, 0.26726, 0.53452, 0.80178);
