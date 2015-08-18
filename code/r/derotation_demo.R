@@ -486,9 +486,9 @@ results <- rbind(t(c(m_rmse, o_rmse, q_rmse)),
                  t(c(m_ac_150_sd, o_ac_150_sd, q_ac_150_sd)),
                  t(c(m_ac_150_mad, o_ac_150_mad, q_ac_150_mad)))
 colnames(results) <- c('Magnitudes', 'Axes1', 'Axes2', 'Axes3', 'Axes1', 'Axes2', 'Axes3')
-rownames(results) <- c('RMSE', 'MAE', 'Median', 'sd', 'MAD', 'CCF', 'COR_P', 'COR_K', 'COR_S', 'DTW', 
-                       'FFT_Power_RMSE', 'FFT_Power_MAE', 'FFT_Power_Median', 'FFT_Power_sd', 'FFT_Power_mad', 
-                       'FFT_Phase_RMSE', 'FFT_Phase_MAE', 'FFT_Phase_Median', 'FFT_Phase_sd', 'FFT_Phase_mad', 
+rownames(results) <- c('RMSE', 'MAE', 'Median', 'SD', 'MAD', 'CCF', 'Pearson', 'Kendall', 'Spearman', 'DTW', 
+                       'FFT power RMSE', 'FFT power MAE', 'FFT power Median', 'FFT power SD', 'FFT power MAD', 
+                       'FFT phase RMSE', 'FFT phase MAE', 'FFT phase Median', 'FFT phase SD', 'FFT phase MAD', 
                        'AC_10_COR_P', 'AC_10_RMSE', 'AC_10_MAE', 'AC_10_Median', 'AC_10_SD', 'AC_10_MAD',
                        'AC_20_COR_P', 'AC_20_RMSE', 'AC_20_MAE', 'AC_20_Median', 'AC_20_SD', 'AC_20_MAD',
                        'AC_30_COR_P', 'AC_30_RMSE', 'AC_30_MAE', 'AC_30_Median', 'AC_30_SD', 'AC_30_MAD',
